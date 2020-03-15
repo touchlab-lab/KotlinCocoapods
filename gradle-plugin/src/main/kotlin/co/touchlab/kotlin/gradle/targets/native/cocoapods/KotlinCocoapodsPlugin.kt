@@ -4,20 +4,21 @@
  */
 
 @file:Suppress("PackageDirectoryMismatch") // Old package for compatibility
-package org.jetbrains.kotlin.gradle.plugin.cocoapods
+package co.touchlab.kotlin.gradle.plugin.cocoapods
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.tasks.Sync
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.dsl.multiplatformExtension
+import co.touchlab.kotlin.gradle.dsl.multiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
-import org.jetbrains.kotlin.gradle.plugin.addExtension
+import co.touchlab.kotlin.gradle.plugin.addExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.tasks.*
-import org.jetbrains.kotlin.gradle.utils.asValidTaskName
-import org.jetbrains.kotlin.gradle.utils.lowerCamelCaseName
+import co.touchlab.kotlin.gradle.tasks.*
+import co.touchlab.kotlin.gradle.utils.asValidTaskName
+import co.touchlab.kotlin.gradle.utils.lowerCamelCaseName
+import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
 import org.jetbrains.kotlin.konan.target.HostManager
 import org.jetbrains.kotlin.konan.target.KonanTarget
 import java.io.File
@@ -265,7 +266,7 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
     }
 
     companion object {
-        const val EXTENSION_NAME = "cocoapods"
+        const val EXTENSION_NAME = "cocoapodsext"
         const val TASK_GROUP = "CocoaPods"
         const val SYNC_TASK_NAME = "syncFramework"
 

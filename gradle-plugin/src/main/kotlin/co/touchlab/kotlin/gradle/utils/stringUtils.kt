@@ -3,7 +3,7 @@
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
-package org.jetbrains.kotlin.gradle.utils
+package co.touchlab.kotlin.gradle.utils
 
 internal fun lowerCamelCaseName(vararg nameParts: String?): String {
     val nonEmptyParts = nameParts.mapNotNull { it?.takeIf(String::isNotEmpty) }

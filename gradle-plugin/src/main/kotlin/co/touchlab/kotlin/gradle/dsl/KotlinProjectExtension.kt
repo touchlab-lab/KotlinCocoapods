@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-package org.jetbrains.kotlin.gradle.dsl
+package co.touchlab.kotlin.gradle.dsl
 
 import org.gradle.api.Project
 import org.gradle.api.internal.plugins.DslObject
+import org.jetbrains.kotlin.gradle.dsl.ExperimentalExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import kotlin.reflect.KClass
 
 private const val KOTLIN_PROJECT_EXTENSION_NAME = "kotlin"

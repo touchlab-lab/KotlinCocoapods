@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jetbrains.kotlin.gradle.plugin
+package co.touchlab.kotlin.gradle.plugin
 
 import org.gradle.api.Task
 import org.gradle.api.file.FileCollection

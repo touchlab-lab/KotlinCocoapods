@@ -4,7 +4,7 @@
  */
 
 @file:Suppress("PackageDirectoryMismatch") // Old package for compatibility
-package org.jetbrains.kotlin.gradle.plugin.cocoapods
+package co.touchlab.kotlin.gradle.plugin.cocoapods
 
 import org.gradle.api.Named
 import org.gradle.api.NamedDomainObjectSet

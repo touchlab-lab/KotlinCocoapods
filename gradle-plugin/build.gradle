@@ -8,7 +8,7 @@ gradlePlugin {
   plugins {
     sqlDelight {
       id = 'co.touchlab.native.cocoapods'
-      implementationClass = 'org.jetbrains.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin'
+      implementationClass = 'co.touchlab.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin'
     }
   }
 }

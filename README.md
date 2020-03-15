@@ -1,20 +1,19 @@
-# Kotlin Xcode Sync
+# Kotlin Cocoapods Extended
 
-*Note* Soon to be deprecated. You can add folder references instead. [See here](https://github.com/touchlab/xcode-kotlin/issues/16).
+This plugin is a fork of the Kotlin Multiplatform plugin's cocoapods support. Cocoapods support bundled into the KMP 
+Gradle plugin is somewhat limited, and trying to change how that works is difficult because it is bundled with the main
+plugin and the main Kotlin project itself. This fork has pulled out just the Cocoapods support and changed the namespace
+so it won't clash.
 
-Import kotlin files into an Xcode project. This is used in conjunction with the [Xcode 
-Kotlin plugin](https://github.com/touchlab/xcode-kotlin) to allow for Kotlin/Native debugging in an iOS application.
+## Features
 
-Importing Kotlin files into Xcode is somewhat tricky to do manually. This plugin will facilitate
-that.
+The main Cocoapods plugin configures the Xcode framework that is built, and does not support all of the configuration 
+options available when you configure the framework manually. This means you'll get a static framework, which can't be 
+debugged, and will prevent being able to add multiple frameworks to a single project. There has also been difficulty
+configuring dependencies to be included in the generated header.
 
-It is called "Sync", but currently it will only add new files. Renamed or removed files will
-need to be handled manually in Xcode.
-
-> ## **We're Hiring!**
->
-> Touchlab is looking for Android-focused mobile engineers, experienced with Kotlin and 
-> looking to get involved with Kotlin Multiplatorm in the near future. [More info here](https://on.touchlab.co/2NrAhB8).
+Not all of this is supported now, but by forking and removing the Cocoapods plugin, it will be much easier to add features
+as desired.
 
 ## Usage
 
@@ -23,7 +22,7 @@ Add the following to the buildscript section:
 ```groovy
 buildscript {
     dependencies {
-        classpath 'co.touchlab:kotlinxcodesync:0.2'
+        classpath 'co.touchlab:kotlinnativecocoapods:0.x'
     }
 }
 ```
@@ -31,14 +30,15 @@ buildscript {
 Apply the plugin in the shared code project, and configure the plugin
 
 ```groovy
-apply plugin: 'co.touchlab.kotlinxcodesync'
+plugins {
+  id("co.touchlab.kotlinxcodesync")
+}
 
-
-xcodeSync {
-  projectPath = "../../iosApp/iosApp.xcodeproj"
-  target = "iosApp"
+kotlin {
+    cocoapodsext {
+      summary = "Common library for the KaMP starter kit"
+      homepage = "https://github.com/touchlab/KaMPStarter"
+      isStatic = false
+    }
 }
 ```
-
-The 'projectPath' points at the Xcode project folder. 'target' is the target inside the Xcode project. There's also the optional 
-parameter 'group', which by default is set to 'Kotlin'. That is the group folder that files are copied into.

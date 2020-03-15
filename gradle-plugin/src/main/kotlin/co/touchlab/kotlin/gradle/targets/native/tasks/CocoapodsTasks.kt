@@ -4,20 +4,20 @@
  */
 
 @file:Suppress("PackageDirectoryMismatch") // Old package for compatibility
-package org.jetbrains.kotlin.gradle.tasks
+package co.touchlab.kotlin.gradle.tasks
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.*
 import org.gradle.api.tasks.wrapper.Wrapper
-import org.jetbrains.kotlin.gradle.plugin.cocoapods.CocoapodsExtension
-import org.jetbrains.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin
-import org.jetbrains.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin.Companion.GENERATE_WRAPPER_PROPERTY
-import org.jetbrains.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin.Companion.KOTLIN_TARGET_FOR_IOS_DEVICE
-import org.jetbrains.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin.Companion.KOTLIN_TARGET_FOR_WATCHOS_DEVICE
-import org.jetbrains.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin.Companion.SYNC_TASK_NAME
-import org.jetbrains.kotlin.gradle.plugin.cocoapods.asValidFrameworkName
-import org.jetbrains.kotlin.gradle.plugin.cocoapods.cocoapodsBuildDirs
+import co.touchlab.kotlin.gradle.plugin.cocoapods.CocoapodsExtension
+import co.touchlab.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin
+import co.touchlab.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin.Companion.GENERATE_WRAPPER_PROPERTY
+import co.touchlab.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin.Companion.KOTLIN_TARGET_FOR_IOS_DEVICE
+import co.touchlab.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin.Companion.KOTLIN_TARGET_FOR_WATCHOS_DEVICE
+import co.touchlab.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin.Companion.SYNC_TASK_NAME
+import co.touchlab.kotlin.gradle.plugin.cocoapods.asValidFrameworkName
+import co.touchlab.kotlin.gradle.plugin.cocoapods.cocoapodsBuildDirs
 import java.io.File
 
 /**
