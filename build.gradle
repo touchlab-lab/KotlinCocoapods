@@ -1,0 +1,30 @@
+buildscript {
+  apply from: "$rootDir/gradle/dependencies.gradle"
+
+  repositories {
+    mavenCentral()
+    maven {
+      url "${project.rootDir.path}/build/localMaven"
+    }
+  }
+
+  dependencies {
+    classpath deps.plugins.kotlin
+  }
+}
+
+allprojects {
+  repositories {
+    mavenCentral()
+  }
+
+  tasks.withType(Test) {
+    testLogging {
+      events = ["failed", "skipped", "passed"]
+      exceptionFormat "full"
+    }
+  }
+
+  group = GROUP
+  version = VERSION_NAME
+}
