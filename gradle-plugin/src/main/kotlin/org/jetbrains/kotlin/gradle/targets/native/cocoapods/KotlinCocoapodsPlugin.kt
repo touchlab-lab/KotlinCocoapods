@@ -65,6 +65,7 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
             target.binaries.framework {
                 baseName = cocoapodsExtension.frameworkName
 //                baseNameProvider = project.provider { cocoapodsExtension.frameworkName }
+                println("cocoapodsExtension.isStatic ${cocoapodsExtension.isStatic}")
                 isStatic = cocoapodsExtension.isStatic
             }
         }
@@ -248,16 +249,18 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
     }
 
     override fun apply(project: Project): Unit = with(project) {
-
         pluginManager.withPlugin("kotlin-multiplatform") {
             val kotlinExtension = project.multiplatformExtension
             val cocoapodsExtension = CocoapodsExtension(this)
 
             kotlinExtension.addExtension(EXTENSION_NAME, cocoapodsExtension)
-            createDefaultFrameworks(kotlinExtension, cocoapodsExtension)
-            createSyncTask(project, kotlinExtension)
-            createPodspecGenerationTask(project, cocoapodsExtension)
-            createInterops(project, kotlinExtension, cocoapodsExtension)
+
+            afterEvaluate {
+                createDefaultFrameworks(kotlinExtension, cocoapodsExtension)
+                createSyncTask(project, kotlinExtension)
+                createPodspecGenerationTask(project, cocoapodsExtension)
+                createInterops(project, kotlinExtension, cocoapodsExtension)
+            }
         }
     }
 
