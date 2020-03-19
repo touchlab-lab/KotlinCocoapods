@@ -17,6 +17,8 @@ as desired.
 
 ## Usage
 
+See [Releases](https://github.com/touchlab/KotlinCocoapods/releases) for current version.
+
 Add the following to the buildscript section:
 
 ```groovy
