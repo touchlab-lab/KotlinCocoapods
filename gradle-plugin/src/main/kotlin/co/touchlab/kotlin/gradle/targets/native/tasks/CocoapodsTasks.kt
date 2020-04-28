@@ -103,7 +103,13 @@ open class PodspecTask : DefaultTask() {
             |                    -P${KotlinCocoapodsPlugin.HEADER_PATHS_PROPERTY}="${'$'}HEADER_SEARCH_PATHS" \
             |                    -P${KotlinCocoapodsPlugin.FRAMEWORK_PATHS_PROPERTY}="${'$'}FRAMEWORK_SEARCH_PATHS"
             |            SCRIPT
-            |        }
+            |        },
+			|        {
+			|        	:name => 'Touch $specName.framework',
+			|        	:execution_position => :after_compile,
+			|        	:shell_path =>  '/bin/sh',
+			|        	:script => 'find "${'$'}{SRCROOT}" -type f -name *frameworks.sh -exec bash -c "touch \"{}\"" \;'
+			|        }
             |    ]
             |end
         """.trimMargin()
