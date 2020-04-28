@@ -18,6 +18,8 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import co.touchlab.kotlin.gradle.tasks.*
 import co.touchlab.kotlin.gradle.utils.asValidTaskName
 import co.touchlab.kotlin.gradle.utils.lowerCamelCaseName
+import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
+import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
 import org.jetbrains.kotlin.konan.target.HostManager
 import org.jetbrains.kotlin.konan.target.KonanTarget
@@ -63,11 +65,8 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
 
     private fun createDefaultFrameworks(kotlinExtension: KotlinMultiplatformExtension, cocoapodsExtension: CocoapodsExtension) {
         kotlinExtension.supportedTargets().all { target ->
-            target.binaries.framework {
-                baseName = cocoapodsExtension.frameworkName
-//                baseNameProvider = project.provider { cocoapodsExtension.frameworkName }
-                println("cocoapodsExtension.isStatic ${cocoapodsExtension.isStatic}")
-                isStatic = cocoapodsExtension.isStatic
+            target.binaries.framework{
+                cocoapodsExtension.configureFramework(this)
             }
         }
     }
