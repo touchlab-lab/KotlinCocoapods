@@ -48,13 +48,16 @@ open class CocoapodsExtension(private val project: Project) {
     @Input
     var homepage: String? = null
 
-    internal var frameworkConfiguration: Framework.() -> Unit = {
+    private fun Framework.setDefaults(){
         baseName = project.name.asValidFrameworkName()
         isStatic = true
     }
 
+    internal var frameworkConfiguration: Framework.() -> Unit = {}
+
     internal fun configureFramework(framework: Framework){
-        frameworkConfiguration(framework)
+        framework.setDefaults()
+        framework.frameworkConfiguration()
     }
 
     @Optional

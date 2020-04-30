@@ -166,21 +166,23 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
             kotlinExtension: KotlinMultiplatformExtension,
             cocoapodsExtension: CocoapodsExtension
     ) {
-        val firstReleaseFramework = kotlinExtension.supportedTargets()
+        val firstFramework = kotlinExtension.supportedTargets()
                 .single()
                 .binaries
-                .getFramework(NativeBuildType.RELEASE)
+                .run {
+                    findFramework(NativeBuildType.RELEASE) ?: getFramework(NativeBuildType.DEBUG)
+                }
 
         val dummyFrameworkTask = project.tasks.create("generateDummyFramework", DummyFrameworkTask::class.java) {
             it.settings = cocoapodsExtension
-            it.framework = firstReleaseFramework
+            it.framework = firstFramework
         }
 
         project.tasks.create("podspec", PodspecTask::class.java) {
             it.group = TASK_GROUP
             it.description = "Generates a podspec file for CocoaPods import"
             it.settings = cocoapodsExtension
-            it.framework = firstReleaseFramework
+            it.framework = firstFramework
             it.dependsOn(dummyFrameworkTask)
             val generateWrapper = project.findProperty(GENERATE_WRAPPER_PROPERTY)?.toString()?.toBoolean() ?: false
             if (generateWrapper) {
