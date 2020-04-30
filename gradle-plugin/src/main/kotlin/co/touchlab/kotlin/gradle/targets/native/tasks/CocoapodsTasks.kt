@@ -18,6 +18,7 @@ import co.touchlab.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin.Companio
 import co.touchlab.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin.Companion.SYNC_TASK_NAME
 import co.touchlab.kotlin.gradle.plugin.cocoapods.asValidFrameworkName
 import co.touchlab.kotlin.gradle.plugin.cocoapods.cocoapodsBuildDirs
+import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import java.io.File
 
 /**
@@ -32,10 +33,13 @@ open class PodspecTask : DefaultTask() {
     val outputFile: File = project.projectDir.resolve("$specName.podspec")
 
     @Input
-    val frameworkNameProvider: Provider<String> = project.provider { settings.frameworkName }
+    val frameworkNameProvider: Provider<String> = project.provider { framework.baseName}
 
     @get:Nested
     internal lateinit var settings: CocoapodsExtension
+
+    @get:Nested
+    internal lateinit var framework: Framework
 
     // TODO: Handle Framework name customization - rename the framework during sync process.
     @TaskAction
@@ -71,7 +75,7 @@ open class PodspecTask : DefaultTask() {
             |    spec.license                  = '${settings.license.orEmpty()}'
             |    spec.summary                  = '${settings.summary.orEmpty()}'
             |
-            |${if(settings.isStatic){"    spec.static_framework         = true"}else{""}}
+            |${if(framework.isStatic){"    spec.static_framework         = true"}else{""}}
             |    spec.vendored_frameworks      = "$frameworkDir/${frameworkNameProvider.get()}.framework"
             |    spec.libraries                = "c++"
             |    spec.module_name              = "#{spec.name}_umbrella"
@@ -137,10 +141,13 @@ open class DummyFrameworkTask : DefaultTask() {
     val destinationDir = project.cocoapodsBuildDirs.framework
 
     @Input
-    val frameworkNameProvider: Provider<String> = project.provider { settings.frameworkName }
+    val frameworkNameProvider: Provider<String> = project.provider { framework.baseName }
 
     @get:Nested
     internal lateinit var settings: CocoapodsExtension
+
+    @get:Nested
+    internal lateinit var framework: Framework
 
     private val frameworkDir: File
         get() = destinationDir.resolve("${frameworkNameProvider.get()}.framework")

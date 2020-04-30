@@ -48,11 +48,6 @@ open class CocoapodsExtension(private val project: Project) {
     @Input
     var homepage: String? = null
 
-    @Internal
-    internal var frameworkName: String = project.name.asValidFrameworkName()
-    @Internal
-    internal var isStatic: Boolean = true
-    @Internal
     internal var frameworkConfiguration: Framework.() -> Unit = {
         baseName = project.name.asValidFrameworkName()
         isStatic = true
@@ -60,8 +55,6 @@ open class CocoapodsExtension(private val project: Project) {
 
     internal fun configureFramework(framework: Framework){
         frameworkConfiguration(framework)
-        frameworkName = framework.baseName
-        isStatic = framework.isStatic
     }
 
     @Optional

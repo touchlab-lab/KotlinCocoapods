@@ -18,7 +18,6 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import co.touchlab.kotlin.gradle.tasks.*
 import co.touchlab.kotlin.gradle.utils.asValidTaskName
 import co.touchlab.kotlin.gradle.utils.lowerCamelCaseName
-import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
 import org.jetbrains.kotlin.konan.target.HostManager
@@ -163,17 +162,25 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
     }
 
     private fun createPodspecGenerationTask(
-        project: Project,
-        cocoapodsExtension: CocoapodsExtension
+            project: Project,
+            kotlinExtension: KotlinMultiplatformExtension,
+            cocoapodsExtension: CocoapodsExtension
     ) {
+        val firstReleaseFramework = kotlinExtension.supportedTargets()
+                .single()
+                .binaries
+                .getFramework(NativeBuildType.RELEASE)
+
         val dummyFrameworkTask = project.tasks.create("generateDummyFramework", DummyFrameworkTask::class.java) {
             it.settings = cocoapodsExtension
+            it.framework = firstReleaseFramework
         }
 
         project.tasks.create("podspec", PodspecTask::class.java) {
             it.group = TASK_GROUP
             it.description = "Generates a podspec file for CocoaPods import"
             it.settings = cocoapodsExtension
+            it.framework = firstReleaseFramework
             it.dependsOn(dummyFrameworkTask)
             val generateWrapper = project.findProperty(GENERATE_WRAPPER_PROPERTY)?.toString()?.toBoolean() ?: false
             if (generateWrapper) {
@@ -258,7 +265,7 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
             afterEvaluate {
                 createDefaultFrameworks(kotlinExtension, cocoapodsExtension)
                 createSyncTask(project, kotlinExtension)
-                createPodspecGenerationTask(project, cocoapodsExtension)
+                createPodspecGenerationTask(project, kotlinExtension, cocoapodsExtension)
                 createInterops(project, kotlinExtension, cocoapodsExtension)
             }
         }
