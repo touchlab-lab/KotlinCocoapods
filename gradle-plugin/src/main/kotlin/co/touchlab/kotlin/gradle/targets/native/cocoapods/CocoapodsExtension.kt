@@ -13,6 +13,7 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.Optional
+import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 
 open class CocoapodsExtension(private val project: Project) {
     @get:Input
@@ -47,17 +48,23 @@ open class CocoapodsExtension(private val project: Project) {
     @Input
     var homepage: String? = null
 
-    /**
-     * Configure framework name of the pod built from this project.
-     */
-    @Input
-    var frameworkName: String = project.name.asValidFrameworkName()
+    private fun Framework.setDefaults(){
+        baseName = project.name.asValidFrameworkName()
+        isStatic = true
+    }
 
-    /**
-     * Configure if framework should be static.
-     */
+    internal var frameworkConfiguration: Framework.() -> Unit = {}
+
+    internal fun configureFramework(framework: Framework){
+        framework.setDefaults()
+        framework.frameworkConfiguration()
+    }
+
+    @Optional
     @Input
-    var isStatic: Boolean = true
+    fun framework(configure: Framework.() -> Unit) {
+        frameworkConfiguration = configure
+    }
 
     private val _pods = project.container(CocoapodsDependency::class.java)
 
@@ -84,9 +91,9 @@ open class CocoapodsExtension(private val project: Project) {
     }
 
     data class CocoapodsDependency(
-        private val name: String,
-        @get:Optional @get:Input val version: String?,
-        @get:Input val moduleName: String
+            private val name: String,
+            @get:Optional @get:Input val version: String?,
+            @get:Input val moduleName: String
     ) : Named {
         @Input
         override fun getName(): String = name

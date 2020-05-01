@@ -18,6 +18,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import co.touchlab.kotlin.gradle.tasks.*
 import co.touchlab.kotlin.gradle.utils.asValidTaskName
 import co.touchlab.kotlin.gradle.utils.lowerCamelCaseName
+import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
 import org.jetbrains.kotlin.konan.target.HostManager
 import org.jetbrains.kotlin.konan.target.KonanTarget
@@ -63,11 +64,8 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
 
     private fun createDefaultFrameworks(kotlinExtension: KotlinMultiplatformExtension, cocoapodsExtension: CocoapodsExtension) {
         kotlinExtension.supportedTargets().all { target ->
-            target.binaries.framework {
-                baseName = cocoapodsExtension.frameworkName
-//                baseNameProvider = project.provider { cocoapodsExtension.frameworkName }
-                println("cocoapodsExtension.isStatic ${cocoapodsExtension.isStatic}")
-                isStatic = cocoapodsExtension.isStatic
+            target.binaries.framework{
+                cocoapodsExtension.configureFramework(this)
             }
         }
     }
@@ -164,17 +162,27 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
     }
 
     private fun createPodspecGenerationTask(
-        project: Project,
-        cocoapodsExtension: CocoapodsExtension
+            project: Project,
+            kotlinExtension: KotlinMultiplatformExtension,
+            cocoapodsExtension: CocoapodsExtension
     ) {
+        val firstFramework = kotlinExtension.supportedTargets()
+                .single()
+                .binaries
+                .run {
+                    findFramework(NativeBuildType.RELEASE) ?: getFramework(NativeBuildType.DEBUG)
+                }
+
         val dummyFrameworkTask = project.tasks.create("generateDummyFramework", DummyFrameworkTask::class.java) {
             it.settings = cocoapodsExtension
+            it.framework = firstFramework
         }
 
         project.tasks.create("podspec", PodspecTask::class.java) {
             it.group = TASK_GROUP
             it.description = "Generates a podspec file for CocoaPods import"
             it.settings = cocoapodsExtension
+            it.framework = firstFramework
             it.dependsOn(dummyFrameworkTask)
             val generateWrapper = project.findProperty(GENERATE_WRAPPER_PROPERTY)?.toString()?.toBoolean() ?: false
             if (generateWrapper) {
@@ -259,7 +267,7 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
             afterEvaluate {
                 createDefaultFrameworks(kotlinExtension, cocoapodsExtension)
                 createSyncTask(project, kotlinExtension)
-                createPodspecGenerationTask(project, cocoapodsExtension)
+                createPodspecGenerationTask(project, kotlinExtension, cocoapodsExtension)
                 createInterops(project, kotlinExtension, cocoapodsExtension)
             }
         }
