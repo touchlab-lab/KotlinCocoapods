@@ -167,7 +167,7 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
             cocoapodsExtension: CocoapodsExtension
     ) {
         val firstFramework = kotlinExtension.supportedTargets()
-                .single()
+                .first()
                 .binaries
                 .run {
                     findFramework(NativeBuildType.RELEASE) ?: getFramework(NativeBuildType.DEBUG)
