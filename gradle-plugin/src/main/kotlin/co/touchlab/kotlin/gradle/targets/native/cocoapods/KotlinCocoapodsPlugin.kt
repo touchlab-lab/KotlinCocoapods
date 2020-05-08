@@ -174,15 +174,15 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
                 }
 
         val dummyFrameworkTask = project.tasks.create("generateDummyFramework", DummyFrameworkTask::class.java) {
-            it.settings = cocoapodsExtension
-            it.framework = firstFramework
+            it.frameworkName = firstFramework.baseName
         }
 
         project.tasks.create("podspec", PodspecTask::class.java) {
             it.group = TASK_GROUP
             it.description = "Generates a podspec file for CocoaPods import"
             it.settings = cocoapodsExtension
-            it.framework = firstFramework
+            it.frameworkName = firstFramework.baseName
+            it.isStatic = firstFramework.isStatic
             it.dependsOn(dummyFrameworkTask)
             val generateWrapper = project.findProperty(GENERATE_WRAPPER_PROPERTY)?.toString()?.toBoolean() ?: false
             if (generateWrapper) {

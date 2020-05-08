@@ -32,14 +32,14 @@ open class PodspecTask : DefaultTask() {
     @OutputFile
     val outputFile: File = project.projectDir.resolve("$specName.podspec")
 
-    @Input
-    val frameworkNameProvider: Provider<String> = project.provider { framework.baseName}
+    @get:Input
+    lateinit var frameworkName:String
+
+    @get:Input
+    var isStatic:Boolean = true
 
     @get:Nested
     internal lateinit var settings: CocoapodsExtension
-
-    @get:Nested
-    internal lateinit var framework: Framework
 
     // TODO: Handle Framework name customization - rename the framework during sync process.
     @TaskAction
@@ -75,8 +75,8 @@ open class PodspecTask : DefaultTask() {
             |    spec.license                  = '${settings.license.orEmpty()}'
             |    spec.summary                  = '${settings.summary.orEmpty()}'
             |
-            |${if(framework.isStatic){"    spec.static_framework         = true"}else{""}}
-            |    spec.vendored_frameworks      = "$frameworkDir/${frameworkNameProvider.get()}.framework"
+            |${if(isStatic){"    spec.static_framework         = true"}else{""}}
+            |    spec.vendored_frameworks      = "$frameworkDir/$frameworkName.framework"
             |    spec.libraries                = "c++"
             |    spec.module_name              = "#{spec.name}_umbrella"
             |
@@ -146,17 +146,11 @@ open class DummyFrameworkTask : DefaultTask() {
     @OutputDirectory
     val destinationDir = project.cocoapodsBuildDirs.framework
 
-    @Input
-    val frameworkNameProvider: Provider<String> = project.provider { framework.baseName }
-
-    @get:Nested
-    internal lateinit var settings: CocoapodsExtension
-
-    @get:Nested
-    internal lateinit var framework: Framework
+    @get:Input
+    lateinit var frameworkName:String
 
     private val frameworkDir: File
-        get() = destinationDir.resolve("${frameworkNameProvider.get()}.framework")
+        get() = destinationDir.resolve("$frameworkName.framework")
 
     private fun copyResource(from: String, to: File) {
         to.parentFile.mkdirs()
@@ -202,11 +196,11 @@ open class DummyFrameworkTask : DefaultTask() {
 
         // Copy files for the dummy framework.
         copyFrameworkFile("Info.plist")
-        copyFrameworkFile("dummy", frameworkNameProvider.get())
+        copyFrameworkFile("dummy", frameworkName)
         copyFrameworkFile("Headers/dummy.h")
         copyFrameworkTextFile("Modules/module.modulemap") {
             if (it == "framework module dummy {") {
-                it.replace("dummy", frameworkNameProvider.get())
+                it.replace("dummy", frameworkName)
             } else {
                 it
             }
