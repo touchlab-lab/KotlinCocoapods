@@ -33,10 +33,10 @@ open class PodspecTask : DefaultTask() {
     val outputFile: File = project.projectDir.resolve("$specName.podspec")
 
     @get:Input
-    lateinit var frameworkName:String
+    internal lateinit var frameworkName:String
 
     @get:Input
-    var isStatic:Boolean = true
+    internal var isStatic:Boolean = true
 
     @get:Nested
     internal lateinit var settings: CocoapodsExtension
