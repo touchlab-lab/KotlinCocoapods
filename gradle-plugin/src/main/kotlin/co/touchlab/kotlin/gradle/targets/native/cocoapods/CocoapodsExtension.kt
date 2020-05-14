@@ -6,6 +6,7 @@
 @file:Suppress("PackageDirectoryMismatch") // Old package for compatibility
 package co.touchlab.kotlin.gradle.plugin.cocoapods
 
+import org.gradle.api.Action
 import org.gradle.api.Named
 import org.gradle.api.NamedDomainObjectSet
 import org.gradle.api.Project
@@ -48,22 +49,22 @@ open class CocoapodsExtension(private val project: Project) {
     @Input
     var homepage: String? = null
 
-    private fun Framework.setDefaults(){
+    private fun Framework.setDefaults() {
         baseName = project.name.asValidFrameworkName()
         isStatic = true
     }
 
-    internal var frameworkConfiguration: Framework.() -> Unit = {}
-
-    internal fun configureFramework(framework: Framework){
-        framework.setDefaults()
-        framework.frameworkConfiguration()
+    internal fun configureFramework(frameworkToConfigure: Framework) {
+        frameworkToConfigure.setDefaults()
+        frameworkAction?.execute(frameworkToConfigure)
     }
 
-    @Optional
-    @Input
-    fun framework(configure: Framework.() -> Unit) {
-        frameworkConfiguration = configure
+    //Not an input because we pull relevant values from the configured frameworks instead of here
+    @Internal
+    var frameworkAction: Action<Framework>? = null
+
+    fun framework(action: Action<Framework>) {
+        frameworkAction = action
     }
 
     private val _pods = project.container(CocoapodsDependency::class.java)
