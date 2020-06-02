@@ -24,7 +24,7 @@ Add the following to the buildscript section:
 ```groovy
 buildscript {
     dependencies {
-        classpath 'co.touchlab:kotlinnativecocoapods:0.x'
+        classpath 'co.touchlab:kotlinnativecocoapods:0.10'
     }
 }
 ```
