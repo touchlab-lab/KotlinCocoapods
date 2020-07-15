@@ -198,7 +198,7 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
     ) {
         val moduleNames = mutableSetOf<String>()
         cocoapodsExtension.pods.all { pod ->
-            if (moduleNames.contains(pod.moduleName)) {
+            if (moduleNames.contains(pod.moduleName) || pod.linkOnly) {
                 return@all
             }
             moduleNames.add(pod.moduleName)
