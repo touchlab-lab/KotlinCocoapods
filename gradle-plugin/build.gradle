@@ -29,12 +29,12 @@ dependencies {
   implementation deps.kotlin.native_utils
 
   compileOnly gradleApi()
-  compileOnly deps.plugins.kotlin
+  compileOnly deps.plugins.kotlinDependency
 
   testImplementation deps.junit
   testImplementation deps.truth
 
-  fixtureClasspath deps.plugins.kotlin
+  fixtureClasspath deps.plugins.kotlinDependency
 }
 
 apply from: "$rootDir/gradle/gradle-mvn-push.gradle"

@@ -9,7 +9,7 @@ buildscript {
   }
 
   dependencies {
-    classpath deps.plugins.kotlin
+    classpath deps.plugins.kotlinBuild
   }
 }
 
