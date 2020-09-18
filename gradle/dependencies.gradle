@@ -1,20 +1,22 @@
 ext.versions = [
-    kotlin: '1.4.0',
+    kotlinBuild: '1.3.72',
+    kotlinDependency: '1.4.0',
 ]
 
 ext.deps = [
     plugins: [
-        kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
+        kotlinBuild: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlinBuild}",
+        kotlinDependency: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlinDependency}",
     ],
 
     kotlin: [
         stdlib: [
-            jdk: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}",
+            jdk: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlinDependency}",
         ],
-        native_utils: "org.jetbrains.kotlin:kotlin-native-utils:${versions.kotlin}",
+        native_utils: "org.jetbrains.kotlin:kotlin-native-utils:${versions.kotlinDependency}",
         test: [
-            common: "org.jetbrains.kotlin:kotlin-test-common:${versions.kotlin}",
-            commonAnnotations: "org.jetbrains.kotlin:kotlin-test-annotations-common:${versions.kotlin}",
+            common: "org.jetbrains.kotlin:kotlin-test-common:${versions.kotlinDependency}",
+            commonAnnotations: "org.jetbrains.kotlin:kotlin-test-annotations-common:${versions.kotlinDependency}",
         ],
     ],
     junit: 'junit:junit:4.12',
