@@ -197,7 +197,7 @@ open class DummyFrameworkTask : DefaultTask() {
         // Copy files for the dummy framework.
         copyFrameworkFile("Info.plist")
         copyFrameworkFile("dummy", frameworkName)
-        copyFrameworkFile("Headers/dummy.h")
+        copyFrameworkFile("Headers/placeholder.h")
         copyFrameworkTextFile("Modules/module.modulemap") {
             if (it == "framework module dummy {") {
                 it.replace("dummy", frameworkName)
