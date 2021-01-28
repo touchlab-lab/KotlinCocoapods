@@ -33,7 +33,7 @@ Apply the plugin in the shared code project, and configure the plugin
 
 ```groovy
 plugins {
-  id("co.touchlab.kotlinxcodesync")
+  id("co.touchlab.native.cocoapods")
 }
 
 kotlin {
