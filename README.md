@@ -2,7 +2,7 @@
 
 # Kotlin Cocoapods Extended
 
-This plugin is a fork of the Kotlin Multiplatform plugin's cocoapods support. Cocoapods support bundled into the KMP 
+This plugin is a fork of the `rg.jetbrains.kotlin.native.cocopods` plugin. Cocoapods support bundled into the KMP 
 Gradle plugin is somewhat limited, and trying to change how that works is difficult because it is bundled with the main
 plugin and the main Kotlin project itself. This fork has pulled out just the Cocoapods support and changed the namespace
 so it won't clash.
