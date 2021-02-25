@@ -1,3 +1,5 @@
+[![View on Maven Central](https://img.shields.io/maven-central/v/co.touchlab/kotlinnativecocoapods)](https://search.maven.org/artifact/co.touchlab/kotlinnativecocoapods)
+
 # Kotlin Cocoapods Extended
 
 This plugin is a fork of the Kotlin Multiplatform plugin's cocoapods support. Cocoapods support bundled into the KMP 
@@ -17,30 +19,40 @@ as desired.
 
 ## Usage
 
-See [Releases](https://github.com/touchlab/KotlinCocoapods/releases) for current version.
-
 Add the following to the buildscript section:
 
-```groovy
+```kotlin
 buildscript {
     dependencies {
-        classpath 'co.touchlab:kotlinnativecocoapods:0.11'
+        classpath("co.touchlab:kotlinnativecocoapods:0.12")
     }
 }
 ```
 
 Apply the plugin in the shared code project, and configure the plugin
 
-```groovy
+```kotlin
 plugins {
-  id("co.touchlab.native.cocoapods")
+    id("co.touchlab.native.cocoapods")
 }
 
 kotlin {
     cocoapodsext {
-      summary = "Common library for the KaMP starter kit"
-      homepage = "https://github.com/touchlab/KaMPStarter"
-      isStatic = false
+        summary = "Common library for the KaMP starter kit"
+        homepage = "https://github.com/touchlab/KaMPStarter"
+        framework {
+            isStatic = false
+            export("com.example:dependency:1.0)
+            transitiveExport = true
+        }
     }
 }
 ```
+
+## Primary Maintainer
+
+[Russell Wolf](https://github.com/russhwolf/)
+
+![](https://avatars.githubusercontent.com/u/3256243?s=140&v=4)
+
+*Reach out on [Twitter](twitter.com/russhwolf) or [Kotlinlang Slack](https://kotlinlang.slack.com/archives/D2VU3UHU0)*
