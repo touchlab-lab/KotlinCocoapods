@@ -26,7 +26,8 @@ tasks.getByName('pluginUnderTestMetadata').
 
 dependencies {
   implementation deps.kotlin.stdlib.jdk
-  implementation deps.kotlin.native_utils
+  // Required for utility classes related to native platforms (e.g. KonanTarget).
+  implementation deps.kotlin.compiler
 
   compileOnly gradleApi()
   compileOnly deps.plugins.kotlinDependency
