@@ -1,5 +1,11 @@
 # Kotlin Cocoapods Extended
 
+## 2021 Note
+
+This project is archived. It was a fork of the "official" plugin. Originally we used it to allow static frameworks and other features, but you can do that now with the "official" plugin. We recommend moving to the Kotlin plugin instead.
+
+## 2021 Note End...
+
 This plugin is a fork of the Kotlin Multiplatform plugin's cocoapods support. Cocoapods support bundled into the KMP 
 Gradle plugin is somewhat limited, and trying to change how that works is difficult because it is bundled with the main
 plugin and the main Kotlin project itself. This fork has pulled out just the Cocoapods support and changed the namespace
