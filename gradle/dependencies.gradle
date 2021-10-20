@@ -13,7 +13,7 @@ ext.deps = [
         stdlib: [
             jdk: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlinDependency}",
         ],
-        native_utils: "org.jetbrains.kotlin:kotlin-native-utils:${versions.kotlinDependency}",
+        compiler: "org.jetbrains.kotlin:kotlin-compiler-embeddable:${versions.kotlinDependency}",
         test: [
             common: "org.jetbrains.kotlin:kotlin-test-common:${versions.kotlinDependency}",
             commonAnnotations: "org.jetbrains.kotlin:kotlin-test-annotations-common:${versions.kotlinDependency}",
